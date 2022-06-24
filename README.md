@@ -1,11 +1,5 @@
-# UPLCamera
+# react-native-cam-gallery
 
-```css
-onSubmit: Callback prop for selected images data return
-onPermissionRejection: Callback prop for user permission rejection
-
-onPermissionBlocked: Callback prop : when permissions are blocked by android system
-```
 
 <p align="center">
   <kbd>
@@ -71,4 +65,15 @@ android {
 ```swift
 pod 'Permission-Camera', :path => "../node_modules/react-native-permissions/ios/Camera"
 pod 'Permission-PhotoLibrary', :path => "../node_modules/react-native-permissions/ios/PhotoLibrary"
+```
+
+
+****`Component Usage`**** 
+
+```css
+<UplCamera 
+      onSubmit={(data) => {}}
+      onPermissionRejection={(data) => {}}
+      onPermissionBlocked={(data) => {}}
+/>
 ```
