@@ -1,2 +1,2 @@
-import UplCamera from './src/CameraModule/index';
-export {UplCamera};
+import RNCamGallery from './src/CameraModule/index';
+export {RNCamGallery};
