@@ -1,6 +1,7 @@
 {
   "name": "uplcamera",
   "version": "0.0.1",
+  "description": "React Native Whatsapp Camera and Gallery for iOS & Android",
   "private": true,
   "main": "index.js",
   "scripts": {
