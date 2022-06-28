@@ -3,7 +3,7 @@
 
 <p align="center">
   <kbd>
-  <img src="https://github.com/uplamartya/uplCamera/blob/master/src/assets/images/preview.gif?raw=true"
+  <img src="https://github.com/novamaster-git/openSourceResources/blob/main/RNcamGalleryPreview.gif?raw=true"
        title="Preview Demo"/>
   </kbd>
 </p>
