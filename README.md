@@ -7,22 +7,18 @@ A React-native Whatsapp camera and Gallery library which can be used in your pro
 
 <kbd>
 
-<img  src="https://github.com/novamaster-git/openSourceResources/blob/main/RNcamGalleryPreview.gif?raw=true"
-
-title="Preview Demo"/>
+<img  src="https://github.com/novamaster-git/openSourceResources/blob/main/RNcamGalleryPreview.gif?raw=true" title="Preview Demo"/>
 
 </kbd>
 
 </p>
 
-  
+
 
 ****`Please install this libraries`****
 
-  
-<p>
-use this custom React-Native-Camera module. we upgraded it due to some permission issues
-</p>
+Use this custom React-Native-Camera module. we upgraded it due to some permission issues
+
 ```bash
 yarn add uplsoumen/react-native-camera-modified#master
 
@@ -106,17 +102,11 @@ Modify the following lines in `android/app/build.gradle`:
 
 android {
 
-...
-
-defaultConfig {
-
-...
-
-missingDimensionStrategy 'react-native-camera', 'general'
-
-}
-
-}
+  defaultConfig {
+   ...
+      missingDimensionStrategy 'react-native-camera', 'general'
+  	}
+   }
 
 ```
 
@@ -143,20 +133,36 @@ pod 'Permission-PhotoLibrary', :path =>  "../node_modules/react-native-permissio
 
 ```css
 
-<UplCamera
+<RNCamGallery
 
 onSubmit={(data) => {}}
 
-onPermissionRejection={(data) => {}}
+onPermissionRejection={() => {}}
 
-onPermissionBlocked={(data) => {}}
+onPermissionBlocked={() => {}}
 
 />
 
 ```
 
-#Contributors 
-[Sourav Das](https://github.com/uplsourav "UplSourav")
-[Amartya Chakraborty](https://github.com/amartyach98 "Amartya Chakraborty")
-[Suman Kamilya](https://github.com/sumankamilya "Suman Kamilya")
-[Soumen Samanta](https://github.com/novamaster-git "Soumen Samanta")
+# Props
+
+
+| props | type |  returns |
+|--|--|--|
+| onSubmit | handler function callback | returns selected and captured images list |
+| onPermissionRejection | handler function callback | return nothing but called when user rejects camera and storage permission |
+| onPermissionBlocked | handler function callback | return nothing but called when camera and storage permission is blocked by Android/IOS |
+
+
+# Repository 
+Checkout your GitHub repository and contribute
+[React-native-cam-gallery](https://github.com/uplsourav/react-native-cam-gallery "React-native-cam-gallery") <br/>
+
+# Contributors 
+[Sourav Das](https://github.com/uplsourav "UplSourav") <br/>
+[Amartya Chakraborty](https://github.com/amartyach98 "Amartya Chakraborty") <br/>
+[Suman Kamilya](https://github.com/sumankamilya "Suman Kamilya") <br/>
+[Soumen Samanta](https://github.com/novamaster-git "Soumen Samanta") <br/>
+
+
