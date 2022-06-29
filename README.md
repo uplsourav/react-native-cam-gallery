@@ -17,7 +17,7 @@ React Native Cam Gallery. A React Native module that allows you to select a phot
 
 ****`Please install this libraries`****
 
-Use this custom React-Native-Camera module. we upgraded it due to some permission issues
+Use this custom React-Native-Camera module. we modified it due to some permission issues
 
 ```bash
 yarn add uplsoumen/react-native-camera-modified#master
