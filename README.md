@@ -17,14 +17,14 @@ React Native Cam Gallery. A React Native module that allows you to select a phot
 
 ****`Please install this libraries`****
 
-Use this custom React-Native-Camera module. we modified it due to some permission issues
+Use this custom React-Native-Camera module. We modified it due to some permission issues
 
 ```bash
 yarn add uplsoumen/react-native-camera-modified#master
 
 ```
 
-  [react-native-permissions](https://www.npmjs.com/package/react-native-permissions "react-native-permissions") is added to access camera and storage permission in Android & IOS
+  [react-native-permissions](https://www.npmjs.com/package/react-native-permissions "react-native-permissions") is added to access camera and storage permission in Android & IOS devices
 
 ```bash
 yarn add react-native-permissions
@@ -33,7 +33,8 @@ yarn add react-native-permissions
 
   
 
-[@react-native-community/cameraroll](https://www.npmjs.com/package/@react-native-community/cameraroll "@react-native-community/cameraroll") is used to access media files from device
+[@react-native-community/cameraroll](https://www.npmjs.com/package/@react-native-community/cameraroll "@react-native-community/cameraroll") is used to access media files from device library
+
 ```bash
 yarn add @react-native-community/cameraroll
 
@@ -42,13 +43,13 @@ yarn add @react-native-community/cameraroll
 
 
 
-Need to add this permissions in **`AndroidManifest.xml`**
+
 
   
 
-Android:
+for Android:
 
-  
+  Need to add this permissions in **`AndroidManifest.xml`**
 
 ```arduino
 
@@ -156,7 +157,7 @@ onPermissionBlocked={() => {}}
 
 
 # Repository 
-Checkout your GitHub repository and contribute
+Checkout our GitHub repository and contribute
 [React-native-cam-gallery](https://github.com/uplsourav/react-native-cam-gallery "React-native-cam-gallery") <br/>
 
 # Contributors 
