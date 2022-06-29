@@ -1,8 +1,18 @@
 {
-  "name": "uplcamera",
+  "name": "react-native-cam-gallery",
   "version": "0.0.1",
-  "private": true,
+  "description": "React Native Whatsapp Camera and Gallery for iOS & Android",
+  "homepage": "https://github.com/uplsourav/react-native-cam-gallery#readme",
   "main": "index.js",
+  "keywords": [
+    "react-native",
+    "react native",
+    "camera",
+    "photo gallery"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uplsourav/react-native-cam-gallery.git"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
