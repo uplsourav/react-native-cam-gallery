@@ -1,7 +1,7 @@
 
 # react-native-cam-gallery
 
-A React-native Whatsapp camera and Gallery library which can be used in your project.
+React Native Cam Gallery. A React Native module that allows you to select a photo/video from the device library or camera.
 
 <p  align="center">
 
