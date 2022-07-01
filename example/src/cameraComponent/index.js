@@ -6,7 +6,7 @@ import {RNCamGallery} from 'react-native-cam-gallery';
 const CameraComponent = () => {
   return (
     <View style={{flex: 1}}>
-      <RNCamGallery onSubmit={(data) => {console.log(data)}} />
+      <RNCamGallery />
     </View>
   );
 };

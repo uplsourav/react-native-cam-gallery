@@ -25,7 +25,7 @@ import {
 import Modules from '../../Modules/index';
 import {FlatGrid} from 'react-native-super-grid';
 import Header from '../Common/Components/Header';
-import {RNCamera} from 'react-native-camera';
+import {Camera as RNCamera} from 'react-native-camera-kit';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 const PICKER_HIDE_POSITION =
@@ -241,7 +241,7 @@ export default class CameraScreen extends React.Component {
     recordOptions: {
       mute: false,
       maxDuration: 5,
-      quality: RNCamera.Constants.VideoQuality['288p'],
+      // quality: RNCamera.Constants.VideoQuality['288p'],
     },
     isRecording: false,
     faces: [],
@@ -668,75 +668,29 @@ export default class CameraScreen extends React.Component {
     };
     if (this.state.galleryMedias.length !== 0) {
       return (
-        <View style={{flex: 1, position: 'relative'}}>
+        <View style={{ flex: 1, position: "relative" }}>
           <View
-            style={{flex: 1, position: 'relative'}}
-            {...this.panResponder.panHandlers}>
+            style={{ flex: 1, position: "relative" }}
+            {...this.panResponder.panHandlers}
+          >
             <RNCamera
-              ref={ref => {
-                this.camera = ref;
-              }}
-              style={{
-                flex: 1,
-                justifyContent: 'space-between',
-              }}
-              type={this.state.type}
-              flashMode={this.state.flash}
-              autoFocus={this.state.autoFocus}
-              autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
-              zoom={this.state.zoom}
-              whiteBalance={this.state.whiteBalance}
-              ratio={this.state.ratio}
-              focusDepth={this.state.depth}>
-              <View style={StyleSheet.absoluteFill}>
-                <View style={[styles.autoFocusBox, drawFocusRingPosition]} />
-                <TouchableWithoutFeedback
-                  onPress={this.touchToFocus.bind(this)}>
-                  <View style={{flex: 1}} />
-                </TouchableWithoutFeedback>
-              </View>
-              <View
-                style={{
-                  width: '100%',
-                  height: 50,
-                  backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  position: 'relative',
-                  top: 0,
-                  right: 0,
-                }}>
-                <TouchableOpacity
-                  // onPress={() => this.props.navigation.goBack()}
-                  style={{
-                    position: 'absolute',
-                    top: 10,
-                    left: 15,
-                    width: 40,
-                    height: 40,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Image
-                    source={require('../assets/images/whiteCross.png')}
-                    style={{width: 18, height: 18}}
-                  />
-                </TouchableOpacity>
-              </View>
-            </RNCamera>
-            <View style={{position: 'absolute', bottom: 220, left: 10}}>
+              actions={{ rightButtonText: "Done", leftButtonText: "Cancel" }}
+              hideControls={false}
+              showCapturedImageCount={false}
+            />
+            <View style={{ position: "absolute", bottom: 220, left: 10 }}>
               {this.state.zoom != 0 ? (
                 <View
                   style={{
                     width: 30,
                     height: 30,
                     borderRadius: 15,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                    backgroundColor: "white",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ textAlign: "center", fontWeight: "bold" }}>
                     {(this.state.zoom * 8).toFixed(1)}
                   </Text>
                 </View>
@@ -745,17 +699,17 @@ export default class CameraScreen extends React.Component {
           </View>
           <Animated.View
             style={{
-              backgroundColor: 'transparent',
-              position: 'absolute',
+              backgroundColor: "transparent",
+              position: "absolute",
               transform: [
                 {
                   translateY: Animated.subtract(
                     this.pan.y.interpolate({
                       inputRange: [0, PICKER_HIDE_POSITION],
                       outputRange: [0, PICKER_HIDE_POSITION],
-                      extrapolate: 'clamp',
+                      extrapolate: "clamp",
                     }),
-                    30,
+                    30
                   ),
                 },
               ],
@@ -768,7 +722,8 @@ export default class CameraScreen extends React.Component {
                 outputRange: [1, 999],
               }),
             }}
-            {...this.panResponder.panHandlers}>
+            {...this.panResponder.panHandlers}
+          >
             {this.state.imagesArray.length > 0 ? (
               <TouchableOpacity
                 onPress={() => this.onHandleSubmit(this.state.imagesArray)}
@@ -776,35 +731,38 @@ export default class CameraScreen extends React.Component {
                   height: 60,
                   width: 60,
                   borderRadius: 30,
-                  position: 'absolute',
+                  position: "absolute",
                   bottom: 50,
                   right: 20,
-                  backgroundColor: 'blue',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  backgroundColor: "blue",
+                  justifyContent: "center",
+                  alignItems: "center",
                   zIndex: 1200,
-                }}>
+                }}
+              >
                 <Image
-                  source={require('../assets/images/Send.png')}
-                  style={{height: 40, width: 40, tintColor: 'white'}}
+                  source={require("../assets/images/Send.png")}
+                  style={{ height: 40, width: 40, tintColor: "white" }}
                 />
                 <View
                   style={{
                     width: 20,
                     height: 20,
                     borderRadius: 10,
-                    position: 'absolute',
+                    position: "absolute",
                     bottom: 5,
                     right: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Text
                     style={{
-                      color: 'white',
-                      fontWeight: '600',
-                      textAlign: 'center',
-                    }}>
+                      color: "white",
+                      fontWeight: "600",
+                      textAlign: "center",
+                    }}
+                  >
                     {this.state.imagesArray?.length}
                   </Text>
                 </View>
@@ -812,13 +770,14 @@ export default class CameraScreen extends React.Component {
             ) : null}
             <View
               style={{
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Image
-                source={require('../assets/images/dropup.png')}
-                style={{width: 20, height: 20, tintColor: 'white'}}
+                source={require("../assets/images/dropup.png")}
+                style={{ width: 20, height: 20, tintColor: "white" }}
               />
             </View>
             <FlatList
@@ -829,13 +788,13 @@ export default class CameraScreen extends React.Component {
               renderItem={this.renderAlbum}
               onEndReached={() => {
                 this.methodsMaster(50)
-                  .then(res => {
+                  .then((res) => {
                     this.setState({
                       galleryMedias: [...this.state.galleryMedias, ...res],
                     });
                   })
-                  .catch(error => {
-                    console.log('Error', error);
+                  .catch((error) => {
+                    console.log("Error", error);
                   });
                 // this.setState({
                 //   galleryMedias: [
@@ -850,15 +809,15 @@ export default class CameraScreen extends React.Component {
           <Animated.View
             style={{
               height: windowHeight,
-              width: '100%',
-              position: 'absolute',
-              backgroundColor: 'white',
+              width: "100%",
+              position: "absolute",
+              backgroundColor: "white",
               transform: [
                 {
                   translateY: this.pan.y.interpolate({
                     inputRange: [0, PICKER_HIDE_POSITION],
                     outputRange: [0, PICKER_HIDE_POSITION],
-                    extrapolate: 'clamp',
+                    extrapolate: "clamp",
                   }),
                 },
               ],
@@ -870,17 +829,18 @@ export default class CameraScreen extends React.Component {
                 inputRange: [0, PICKER_HIDE_POSITION],
                 outputRange: [999, 1],
               }),
-            }}>
+            }}
+          >
             <View {...this.panResponder.panHandlers}>
               <Header
                 headerText={
                   this.state.imagesArray.length < 1
-                    ? 'Gallery'
-                    : this.state.imagesArray.length + ' Selected'
+                    ? "Gallery"
+                    : this.state.imagesArray.length + " Selected"
                 }
                 showBack={true}
                 onPressBack={this.hideGallary}
-                doneTxt={this.state.imagesArray.length > 0 ? 'Next' : null}
+                doneTxt={this.state.imagesArray.length > 0 ? "Next" : null}
                 onPressDoneTxt={() =>
                   this.onHandleSubmit(this.state.imagesArray)
                 }
@@ -889,19 +849,19 @@ export default class CameraScreen extends React.Component {
 
             <FlatGrid
               itemDimension={(windowWidth - 5) / 4}
-              style={{flex: 1}}
+              style={{ flex: 1 }}
               spacing={10}
               data={this.state.galleryMedias}
               renderItem={this.renderImages}
               onEndReached={() => {
                 this.methodsMaster(50)
-                  .then(res => {
+                  .then((res) => {
                     this.setState({
                       galleryMedias: [...this.state.galleryMedias, ...res],
                     });
                   })
-                  .catch(error => {
-                    console.log('Error', error);
+                  .catch((error) => {
+                    console.log("Error", error);
                   });
               }}
               onEndReachedThreshold={1}
@@ -910,11 +870,11 @@ export default class CameraScreen extends React.Component {
 
           <Animated.View
             style={{
-              position: 'absolute',
+              position: "absolute",
               bottom: 0,
               right: 0,
               left: 0,
-              width: '100%',
+              width: "100%",
 
               zIndex: this.pan.y.interpolate({
                 inputRange: [0, PICKER_HIDE_POSITION],
@@ -924,59 +884,64 @@ export default class CameraScreen extends React.Component {
                 inputRange: [0, PICKER_HIDE_POSITION],
                 outputRange: [0, 1],
               }),
-            }}>
+            }}
+          >
             <View
               style={{
                 height: 100,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-              }}>
+                backgroundColor: "transparent",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
               <TouchableOpacity
                 onPress={this.toggleFlash.bind(this)}
-                style={{alignItems: 'center', justifyContent: 'center'}}>
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
                 <Image
                   source={
-                    this.state.flash === 'off'
-                      ? require('../assets/images/Flash_off.png')
-                      : this.state.flash === 'on'
-                      ? require('../assets/images/Flash_on.png')
-                      : this.state.flash === 'auto'
-                      ? require('../assets/images/Flash_auto.png')
-                      : require('../assets/images/Flash_fill.png')
+                    this.state.flash === "off"
+                      ? require("../assets/images/Flash_off.png")
+                      : this.state.flash === "on"
+                      ? require("../assets/images/Flash_on.png")
+                      : this.state.flash === "auto"
+                      ? require("../assets/images/Flash_auto.png")
+                      : require("../assets/images/Flash_fill.png")
                   }
-                  style={{width: 35, height: 35}}
+                  style={{ width: 35, height: 35 }}
                 />
               </TouchableOpacity>
               <TouchableOpacity onPress={this.takePicture.bind(this)}>
                 <Image
-                  source={require('../assets/images/camera_capture.png')}
-                  style={{width: 70, height: 70}}
+                  source={require("../assets/images/cameraButton.png")}
+                  style={{ width: 70, height: 70 }}
                 />
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={this.toggleFacing.bind(this)}
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  alignItems: "center",
+                  justifyContent: "center",
                   height: 35,
                   width: 35,
-                }}>
+                }}
+              >
                 <Animated.View
                   style={{
                     transform: [
                       {
                         rotate: this.cameraToggleRef.interpolate({
                           inputRange: [0, 100],
-                          outputRange: ['0deg', '180deg'],
+                          outputRange: ["0deg", "180deg"],
                         }),
                       },
                     ],
-                  }}>
+                  }}
+                >
                   <Image
-                    source={require('../assets/images/Camera_toggle.png')}
+                    source={require("../assets/images/Camera_toggle.png")}
                     style={{
                       width: 22,
                       height: 30,
