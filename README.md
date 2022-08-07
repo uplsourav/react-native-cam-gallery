@@ -1,6 +1,6 @@
 # react-native-cam-gallery
 
-React Native Cam Gallery. A React Native module that allows you to select photos & videos from the device library or camera.
+React Native Cam Gallery. A React Native module that allows you to select photos & videos from the device library & camera.
 
 <p  align="center">
 
