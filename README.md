@@ -21,10 +21,24 @@ yarn add react-native-permissions
 
 ```
 
+[react-native-camera-kit](https://www.npmjs.com/package/react-native-camera-kit "react-native-camera-kit") is a camera library for React Native apps. 
+
+```bash
+yarn add react-native-camera-kit
+
+```
+
 [@react-native-community/cameraroll](https://www.npmjs.com/package/@react-native-community/cameraroll "@react-native-community/cameraroll") is used to access media files from device library
 
 ```bash
 yarn add @react-native-community/cameraroll
+
+```
+
+[fbjs](https://www.npmjs.com/package/fbjs "fbjs") is used to access few Facebook's APIs
+
+```bash
+yarn add fbjs
 
 ```
 
@@ -65,6 +79,22 @@ Add permissions with usage descriptions to your app `Info.plist:`
 ```
 
 ### **Modify build.gradle**
+
+Modify the following lines in `android/app/build.gradle`:
+
+```
+
+android {
+
+  defaultConfig {
+   ...
+      missingDimensionStrategy 'react-native-camera', 'general'
+  	}
+   }
+
+```
+
+### **Add kotlin to your project**
 
 Modify the following lines in `android/app/build.gradle`:
 
