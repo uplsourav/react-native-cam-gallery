@@ -1,2 +1,2 @@
-import RNCamGallery from './src/CameraModule/index';
-export {RNCamGallery};
+import RNCamGallery from './src/CamGalleryModule/index';
+export { RNCamGallery };

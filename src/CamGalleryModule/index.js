@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Dimensions,
   Platform,
   Animated,
@@ -14,7 +13,6 @@ import {
   ActivityIndicator,
   BackHandler,
   LogBox,
-  Modal,
 } from 'react-native';
 import {
   PERMISSIONS,
@@ -23,9 +21,9 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import Modules from '../../Modules/index';
-import {FlatGrid} from 'react-native-super-grid';
 import Header from '../Common/Components/Header';
-import {Camera as RNCamera} from 'react-native-camera-kit';
+import { Camera } from 'react-native-camera-kit';
+
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 const PICKER_HIDE_POSITION =
@@ -56,6 +54,7 @@ function calcDistance(x1, y1, x2, y2) {
   let dy = Math.abs(y1 - y2);
   return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 }
+
 export default class CameraScreen extends React.Component {
   currentZoomValue = 0;
   imagePickerOpen = false;
@@ -64,10 +63,12 @@ export default class CameraScreen extends React.Component {
   cameraToggleRef = new Animated.Value(0);
   SelectorAnimatedRef = new Animated.Value(windowHeight);
   methodsMaster = null;
+
   constructor(props) {
     super(props);
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
+
   // TO open device settings from custom modal or Parent Component
   handleParentSettingsButton() {
     this.openDeviceSettings();
@@ -76,23 +77,25 @@ export default class CameraScreen extends React.Component {
   openDeviceSettings() {
     openSettings().catch(() => console.warn('cannot open settings'));
   }
+
   // To Close permission dialog or modal
   handleParentCloseButton() {
     this.closeSettingsModal();
   }
+
   // To Close permission dialog or modal
   closeSettingsModal() {
-    this.setState({showModal: false});
+    this.setState({ showModal: false });
   }
 
   componentDidMount() {
-    const {getDevicePhotos, getMorePhotos} = Modules();
+    const { getDevicePhotos, getMorePhotos } = Modules();
     LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
     LogBox.ignoreAllLogs(); //Ignore all log notifications
     this.methodsMaster = getMorePhotos; // Need to be improved
     getDevicePhotos(50)
       .then(res => {
-        this.setState({galleryMedias: res});
+        this.setState({ galleryMedias: res });
       })
       .catch(errror => {
         console.log(errror);
@@ -118,20 +121,20 @@ export default class CameraScreen extends React.Component {
           ]).then(statuses => {
             if (
               statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE] ===
-                'denied' ||
+              'denied' ||
               statuses[PERMISSIONS.ANDROID.CAMERA] === 'denied'
             ) {
               this.props?.onPermissionRejection();
             } else if (
               statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE] ===
-                'blocked' ||
+              'blocked' ||
               statuses[PERMISSIONS.ANDROID.CAMERA] === 'blocked'
             ) {
               this.props?.onPermissionBlocked();
             } else {
               getDevicePhotos(50)
                 .then(res => {
-                  this.setState({galleryMedias: res});
+                  this.setState({ galleryMedias: res });
                 })
                 .catch(errror => {
                   console.log(errror);
@@ -144,7 +147,7 @@ export default class CameraScreen extends React.Component {
           statuses[PERMISSIONS.ANDROID.CAMERA] === 'blocked' ||
           statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE] === 'blocked'
         ) {
-          this.setState({showModal: true});
+          this.setState({ showModal: true });
         }
       });
     } else if (Platform.OS === 'ios') {
@@ -173,7 +176,7 @@ export default class CameraScreen extends React.Component {
             } else {
               getDevicePhotos(50)
                 .then(res => {
-                  this.setState({galleryMedias: res});
+                  this.setState({ galleryMedias: res });
                 })
                 .catch(errror => {
                   console.log(errror);
@@ -185,21 +188,16 @@ export default class CameraScreen extends React.Component {
           statuses[PERMISSIONS.IOS.CAMERA] === 'blocked' ||
           statuses[PERMISSIONS.IOS.PHOTO_LIBRARY] === 'blocked'
         ) {
-          this.setState({showModal: true});
+          this.setState({ showModal: true });
         } else if (
           statuses[PERMISSIONS.IOS.PHOTO_LIBRARY] === 'unavailable' ||
           statuses[PERMISSIONS.IOS.CAMERA] === 'unavailable'
         ) {
-          this.setState({showModal: true});
+          this.setState({ showModal: true });
         }
       });
     }
   }
-
-  // componentDidUpdate() {
-
-  //   console.log('first', this.state.galleryMedias);
-  // }
 
   componentWillUnmount() {
     BackHandler.removeEventListener(
@@ -207,6 +205,7 @@ export default class CameraScreen extends React.Component {
       this.handleBackButtonClick,
     );
   }
+
   handleBackButtonClick() {
     if (this.state.imagesArray.length > 0) {
       this.setState({
@@ -222,13 +221,14 @@ export default class CameraScreen extends React.Component {
     }
     return true;
   }
+
   state = {
     showModal: false,
     flash: 'off',
     zoom: 0,
     autoFocus: 'on',
     autoFocusPoint: {
-      normalized: {x: 0.5, y: 0.5}, // normalized values required for autoFocusPointOfInterest
+      normalized: { x: 0.5, y: 0.5 }, // normalized values required for autoFocusPointOfInterest
       drawRectPosition: {
         x: Dimensions.get('window').width * 0.5 - 32,
         y: Dimensions.get('window').height * 0.5 - 32,
@@ -241,7 +241,7 @@ export default class CameraScreen extends React.Component {
     recordOptions: {
       mute: false,
       maxDuration: 5,
-      // quality: RNCamera.Constants.VideoQuality['288p'],
+      // quality: Camera.Constants.VideoQuality['288p'],
     },
     isRecording: false,
     faces: [],
@@ -255,20 +255,24 @@ export default class CameraScreen extends React.Component {
     isSelectorOpen: false,
     picketType: 'All',
   };
+
   openPickerStateChange = () => {
     this.imagePickerOpen = true;
   };
+
   closePickerStateChange = () => {
     this.imagePickerOpen = false;
   };
-  pan = new Animated.ValueXY({x: 0, y: PICKER_HIDE_POSITION});
+
+  pan = new Animated.ValueXY({ x: 0, y: PICKER_HIDE_POSITION });
+
   panResponder = PanResponder.create({
-    onMoveShouldSetPanResponder: (e, {dy}) => {
+    onMoveShouldSetPanResponder: (e, { dy }) => {
       return Math.abs(dy) > 20;
     },
     onMoveShouldSetResponder: () => true,
-    onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
-    onPanResponderGrant: () => {},
+    onStartShouldSetPanResponderCapture: () => false,
+    onPanResponderGrant: () => { },
     onPanResponderMove: (event, gestureState) => {
       let touches = event.nativeEvent.touches;
       let ActiveTouch = gestureState.numberActiveTouches;
@@ -298,12 +302,12 @@ export default class CameraScreen extends React.Component {
         }
       } else if (ActiveTouch === 1 && !this.isZooming) {
         if (gestureState.dy < 0 && this.state.isGridOpen === false) {
-          return Animated.event([null, {moveY: this.pan.y}], {
+          return Animated.event([null, { moveY: this.pan.y }], {
             useNativeDriver: false,
           })(event, gestureState);
         }
         if (gestureState.dy > 0 && this.state.isGridOpen === true) {
-          return Animated.event([null, {moveY: this.pan.y}], {
+          return Animated.event([null, { moveY: this.pan.y }], {
             useNativeDriver: false,
           })(event, gestureState);
         }
@@ -358,23 +362,24 @@ export default class CameraScreen extends React.Component {
 
   hideGallary = () => {
     Animated.timing(this.pan, {
-      toValue: {x: 0, y: PICKER_HIDE_POSITION},
+      toValue: { x: 0, y: PICKER_HIDE_POSITION },
       duration: 500,
       useNativeDriver: true,
     }).start(() => {
-      this.setState({isGridOpen: false});
+      this.setState({ isGridOpen: false });
     });
   };
 
   showGallary = () => {
     Animated.timing(this.pan, {
-      toValue: {x: 0, y: 0},
+      toValue: { x: 0, y: 0 },
       duration: 500,
       useNativeDriver: true,
     }).start(() => {
-      this.setState({isGridOpen: true});
+      this.setState({ isGridOpen: true });
     });
   };
+
   toggleFacing() {
     this.rotateCameraToggle();
     this.setState({
@@ -401,7 +406,7 @@ export default class CameraScreen extends React.Component {
   }
 
   touchToFocus(event) {
-    const {pageX, pageY} = event.nativeEvent;
+    const { pageX, pageY } = event.nativeEvent;
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
     const isPortrait = screenHeight > screenWidth;
@@ -416,8 +421,8 @@ export default class CameraScreen extends React.Component {
 
     this.setState({
       autoFocusPoint: {
-        normalized: {x, y},
-        drawRectPosition: {x: pageX, y: pageY},
+        normalized: { x, y },
+        drawRectPosition: { x: pageX, y: pageY },
       },
     });
   }
@@ -440,13 +445,14 @@ export default class CameraScreen extends React.Component {
     });
   }
 
+
   takePicture = async function () {
     if (this.camera) {
-      const data = await this.camera.takePictureAsync();
+      const image = await this.camera.capture();
       var objj = {
         node: {
           ...{
-            image: data,
+            image: image,
           },
           ...{
             type: 'image/',
@@ -456,20 +462,17 @@ export default class CameraScreen extends React.Component {
       this.setState({
         imagesArray: [...this.state.imagesArray, objj],
       });
-      this.onHandleSubmit(this.state.imagesArray);
-      // this.onHandleSubmit
     }
   };
 
   takeVideo = async () => {
-    const {isRecording} = this.state;
+    const { isRecording } = this.state;
     if (this.camera && !isRecording) {
       try {
         const promise = this.camera.recordAsync(this.state.recordOptions);
 
         if (promise) {
-          this.setState({isRecording: true});
-          const data = await promise;
+          this.setState({ isRecording: true });
         }
       } catch (e) {
         console.error(e);
@@ -478,9 +481,9 @@ export default class CameraScreen extends React.Component {
   };
 
   toggle = value => () =>
-    this.setState(prevState => ({[value]: !prevState[value]}));
+    this.setState(prevState => ({ [value]: !prevState[value] }));
 
-  renderAlbum = ({item}) => {
+  renderGridMedia = ({ item }) => {
     return (
       <TouchableOpacity
         onLongPress={() => {
@@ -496,15 +499,15 @@ export default class CameraScreen extends React.Component {
           marginTop: 10,
           paddingRight: 5,
         }}>
-        <View style={{position: 'relative', top: 0}}>
-          <View style={{position: 'relative', borderRadius: 5}}>
+        <View style={{ position: 'relative', top: 0 }}>
+          <View style={{ position: 'relative', borderRadius: 5 }}>
             <Image
               style={{
                 width: 67,
                 height: 67,
                 borderRadius: 5,
               }}
-              source={{uri: item.node.image.uri}}
+              source={{ uri: item.node.image.uri }}
             />
           </View>
           {this.state.imagesArray.includes(item) ? (
@@ -535,6 +538,7 @@ export default class CameraScreen extends React.Component {
       </TouchableOpacity>
     );
   };
+
   selectItems = item => {
     // setSelectionStarted(true);
     if (this.state.imagesArray.includes(item)) {
@@ -549,6 +553,7 @@ export default class CameraScreen extends React.Component {
       });
     }
   };
+
   tabSingleItem = item => {
     if (this.state.imagesArray.length > 0) {
       this.selectItems(item);
@@ -556,29 +561,35 @@ export default class CameraScreen extends React.Component {
       this.onHandleSubmit(item);
     }
   };
-  renderImages = ({item}) => {
+
+  renderListMedia = ({ item }) => {
     return (
       <TouchableOpacity
         onLongPress={() => {
           this.selectItems(item);
         }}
         onPress={() => {
+          // shortPress(item);
           this.tabSingleItem(item);
         }}
         style={{
-          borderRadius: 2,
+          borderRadius: 5,
           position: 'relative',
-          marginTop: 0,
+          marginTop: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+          // paddingRight: 5,
+          flex: 1
         }}>
-        <View style={{position: 'relative', top: 0}}>
-          <View style={{position: 'relative', borderRadius: 2}}>
+        <View style={{ position: 'relative', top: 0 }}>
+          <View style={{ position: 'relative', borderRadius: 5 }}>
             <Image
               style={{
-                height: 100,
-                borderRadius: 2,
+                width: 110,
+                height: 110,
+                borderRadius: 5,
               }}
-              onError={err => {}}
-              source={{uri: item.node.image.uri}}
+              source={{ uri: item.node.image.uri }}
             />
           </View>
           {this.state.imagesArray.includes(item) ? (
@@ -609,13 +620,14 @@ export default class CameraScreen extends React.Component {
       </TouchableOpacity>
     );
   };
-  renderFace = ({bounds, faceID, rollAngle, yawAngle}) => (
+
+  renderFace = ({ bounds, faceID, rollAngle, yawAngle }) => (
     <View
       key={faceID}
       transform={[
-        {perspective: 600},
-        {rotateZ: `${rollAngle.toFixed(0)}deg`},
-        {rotateY: `${yawAngle.toFixed(0)}deg`},
+        { perspective: 600 },
+        { rotateZ: `${rollAngle.toFixed(0)}deg` },
+        { rotateY: `${yawAngle.toFixed(0)}deg` },
       ]}
       style={[
         styles.face,
@@ -642,6 +654,7 @@ export default class CameraScreen extends React.Component {
       });
     });
   }
+
   openSelector() {
     Animated.timing(this.SelectorAnimatedRef, {
       toValue: 0,
@@ -655,42 +668,84 @@ export default class CameraScreen extends React.Component {
   }
 
   onHandleSubmit(data) {
-    this.props.onSubmit(data);
-    this.setState({imagesArray: []});
+    if (this.props.onSubmit) {
+      this.props?.onSubmit(data);
+    }
+
+    this.setState({ imagesArray: [] });
     this.hideGallary();
-    this.setState({imagesArray: []});
+    this.setState({ imagesArray: [] });
   }
 
   renderCamera() {
-    const drawFocusRingPosition = {
-      top: this.state.autoFocusPoint.drawRectPosition.y - 32,
-      left: this.state.autoFocusPoint.drawRectPosition.x - 32,
-    };
     if (this.state.galleryMedias.length !== 0) {
       return (
-        <View style={{ flex: 1, position: "relative" }}>
+        <View style={{ flex: 1, position: 'relative' }}>
           <View
-            style={{ flex: 1, position: "relative" }}
-            {...this.panResponder.panHandlers}
-          >
-            <RNCamera
-              actions={{ rightButtonText: "Done", leftButtonText: "Cancel" }}
-              hideControls={false}
-              showCapturedImageCount={false}
+            style={{ flex: 1, position: 'relative' }}
+            {...this.panResponder.panHandlers}>
+            <Camera
+              ref={(cam) => (this.camera = cam)}
+              style={{ flex: 1 }}
+              cameraType={this.state.type}
+              flashMode={this.state.flash}
+              focusMode={this.state.autoFocus}
+              zoomMode="on"
+              torchMode={this.state.flash == "torch" ? "on" : "off"}
+              ratioOverlay="1:1"
+              ratioOverlayColor="#00000077"
+              resetFocusTimeout={0}
+              resetFocusWhenMotionDetected={false}
+              saveToCameraRoll={false}
+              scanBarcode={false}
             />
-            <View style={{ position: "absolute", bottom: 220, left: 10 }}>
+            <View
+              style={{
+                width: '100%',
+                height: 50,
+                backgroundColor: 'transparent',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                position: 'relative',
+                top: 0,
+                right: 0,
+                position: 'absolute',
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (this.props.onClose) {
+                    this.props.onClose();
+                  }
+                }}
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  left: 15,
+                  width: 40,
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={require('../assets/images/whiteCross.png')}
+                  style={{ width: 18, height: 18 }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ position: 'absolute', bottom: 220, left: 10 }}>
               {this.state.zoom != 0 ? (
                 <View
                   style={{
                     width: 30,
                     height: 30,
                     borderRadius: 15,
-                    backgroundColor: "white",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     {(this.state.zoom * 8).toFixed(1)}
                   </Text>
                 </View>
@@ -699,17 +754,17 @@ export default class CameraScreen extends React.Component {
           </View>
           <Animated.View
             style={{
-              backgroundColor: "transparent",
-              position: "absolute",
+              backgroundColor: 'transparent',
+              position: 'absolute',
               transform: [
                 {
                   translateY: Animated.subtract(
                     this.pan.y.interpolate({
                       inputRange: [0, PICKER_HIDE_POSITION],
                       outputRange: [0, PICKER_HIDE_POSITION],
-                      extrapolate: "clamp",
+                      extrapolate: 'clamp',
                     }),
-                    30
+                    30,
                   ),
                 },
               ],
@@ -722,8 +777,7 @@ export default class CameraScreen extends React.Component {
                 outputRange: [1, 999],
               }),
             }}
-            {...this.panResponder.panHandlers}
-          >
+            {...this.panResponder.panHandlers}>
             {this.state.imagesArray.length > 0 ? (
               <TouchableOpacity
                 onPress={() => this.onHandleSubmit(this.state.imagesArray)}
@@ -731,38 +785,35 @@ export default class CameraScreen extends React.Component {
                   height: 60,
                   width: 60,
                   borderRadius: 30,
-                  position: "absolute",
+                  position: 'absolute',
                   bottom: 50,
                   right: 20,
-                  backgroundColor: "blue",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  backgroundColor: 'blue',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   zIndex: 1200,
-                }}
-              >
+                }}>
                 <Image
-                  source={require("../assets/images/Send.png")}
-                  style={{ height: 40, width: 40, tintColor: "white" }}
+                  source={require('../assets/images/Send.png')}
+                  style={{ height: 40, width: 40, tintColor: 'white' }}
                 />
                 <View
                   style={{
                     width: 20,
                     height: 20,
                     borderRadius: 10,
-                    position: "absolute",
+                    position: 'absolute',
                     bottom: 5,
                     right: 5,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                   <Text
                     style={{
-                      color: "white",
-                      fontWeight: "600",
-                      textAlign: "center",
-                    }}
-                  >
+                      color: 'white',
+                      fontWeight: '600',
+                      textAlign: 'center',
+                    }}>
                     {this.state.imagesArray?.length}
                   </Text>
                 </View>
@@ -770,14 +821,13 @@ export default class CameraScreen extends React.Component {
             ) : null}
             <View
               style={{
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <Image
-                source={require("../assets/images/dropup.png")}
-                style={{ width: 20, height: 20, tintColor: "white" }}
+                source={require('../assets/images/dropup.png')}
+                style={{ width: 20, height: 20, tintColor: 'white' }}
               />
             </View>
             <FlatList
@@ -785,16 +835,16 @@ export default class CameraScreen extends React.Component {
               data={this.state.galleryMedias}
               keyExtractor={(x, i) => i.toString()}
               key="{item}"
-              renderItem={this.renderAlbum}
+              renderItem={this.renderGridMedia}
               onEndReached={() => {
                 this.methodsMaster(50)
-                  .then((res) => {
+                  .then(res => {
                     this.setState({
                       galleryMedias: [...this.state.galleryMedias, ...res],
                     });
                   })
-                  .catch((error) => {
-                    console.log("Error", error);
+                  .catch(error => {
+                    console.log('Error', error);
                   });
                 // this.setState({
                 //   galleryMedias: [
@@ -809,15 +859,15 @@ export default class CameraScreen extends React.Component {
           <Animated.View
             style={{
               height: windowHeight,
-              width: "100%",
-              position: "absolute",
-              backgroundColor: "white",
+              width: '100%',
+              position: 'absolute',
+              backgroundColor: 'white',
               transform: [
                 {
                   translateY: this.pan.y.interpolate({
                     inputRange: [0, PICKER_HIDE_POSITION],
                     outputRange: [0, PICKER_HIDE_POSITION],
-                    extrapolate: "clamp",
+                    extrapolate: 'clamp',
                   }),
                 },
               ],
@@ -829,39 +879,37 @@ export default class CameraScreen extends React.Component {
                 inputRange: [0, PICKER_HIDE_POSITION],
                 outputRange: [999, 1],
               }),
-            }}
-          >
+            }}>
             <View {...this.panResponder.panHandlers}>
               <Header
                 headerText={
                   this.state.imagesArray.length < 1
-                    ? "Gallery"
-                    : this.state.imagesArray.length + " Selected"
+                    ? 'Gallery'
+                    : this.state.imagesArray.length + ' Selected'
                 }
                 showBack={true}
                 onPressBack={this.hideGallary}
-                doneTxt={this.state.imagesArray.length > 0 ? "Next" : null}
+                doneTxt={this.state.imagesArray.length > 0 ? 'Next' : null}
                 onPressDoneTxt={() =>
                   this.onHandleSubmit(this.state.imagesArray)
                 }
               />
             </View>
-
-            <FlatGrid
-              itemDimension={(windowWidth - 5) / 4}
-              style={{ flex: 1 }}
-              spacing={10}
+            <FlatList
+              numColumns={3}
               data={this.state.galleryMedias}
-              renderItem={this.renderImages}
+              keyExtractor={(x, i) => i.toString()}
+              key="{item}"
+              renderItem={this.renderListMedia}
               onEndReached={() => {
                 this.methodsMaster(50)
-                  .then((res) => {
+                  .then(res => {
                     this.setState({
                       galleryMedias: [...this.state.galleryMedias, ...res],
                     });
                   })
-                  .catch((error) => {
-                    console.log("Error", error);
+                  .catch(error => {
+                    console.log('Error', error);
                   });
               }}
               onEndReachedThreshold={1}
@@ -870,11 +918,11 @@ export default class CameraScreen extends React.Component {
 
           <Animated.View
             style={{
-              position: "absolute",
+              position: 'absolute',
               bottom: 0,
               right: 0,
               left: 0,
-              width: "100%",
+              width: '100%',
 
               zIndex: this.pan.y.interpolate({
                 inputRange: [0, PICKER_HIDE_POSITION],
@@ -884,37 +932,34 @@ export default class CameraScreen extends React.Component {
                 inputRange: [0, PICKER_HIDE_POSITION],
                 outputRange: [0, 1],
               }),
-            }}
-          >
+            }}>
             <View
               style={{
                 height: 100,
-                backgroundColor: "transparent",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
+                backgroundColor: 'transparent',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+              }}>
               <TouchableOpacity
                 onPress={this.toggleFlash.bind(this)}
-                style={{ alignItems: "center", justifyContent: "center" }}
-              >
+                style={{ alignItems: 'center', justifyContent: 'center' }}>
                 <Image
                   source={
-                    this.state.flash === "off"
-                      ? require("../assets/images/Flash_off.png")
-                      : this.state.flash === "on"
-                      ? require("../assets/images/Flash_on.png")
-                      : this.state.flash === "auto"
-                      ? require("../assets/images/Flash_auto.png")
-                      : require("../assets/images/Flash_fill.png")
+                    this.state.flash === 'off'
+                      ? require('../assets/images/Flash_off.png')
+                      : this.state.flash === 'on'
+                        ? require('../assets/images/Flash_on.png')
+                        : this.state.flash === 'auto'
+                          ? require('../assets/images/Flash_auto.png')
+                          : require('../assets/images/Flash_fill.png')
                   }
                   style={{ width: 35, height: 35 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.takePicture.bind(this)}>
+              <TouchableOpacity onPress={() => this.takePicture()}>
                 <Image
-                  source={require("../assets/images/cameraButton.png")}
+                  source={require('../assets/images/camera_capture.png')}
                   style={{ width: 70, height: 70 }}
                 />
               </TouchableOpacity>
@@ -922,26 +967,24 @@ export default class CameraScreen extends React.Component {
               <TouchableOpacity
                 onPress={this.toggleFacing.bind(this)}
                 style={{
-                  alignItems: "center",
-                  justifyContent: "center",
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   height: 35,
                   width: 35,
-                }}
-              >
+                }}>
                 <Animated.View
                   style={{
                     transform: [
                       {
                         rotate: this.cameraToggleRef.interpolate({
                           inputRange: [0, 100],
-                          outputRange: ["0deg", "180deg"],
+                          outputRange: ['0deg', '180deg'],
                         }),
                       },
                     ],
-                  }}
-                >
+                  }}>
                   <Image
-                    source={require("../assets/images/Camera_toggle.png")}
+                    source={require('../assets/images/Camera_toggle.png')}
                     style={{
                       width: 22,
                       height: 30,
@@ -955,7 +998,7 @@ export default class CameraScreen extends React.Component {
       );
     } else {
       return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size="large" color={'white'} />
         </View>
       );
@@ -966,71 +1009,6 @@ export default class CameraScreen extends React.Component {
     return (
       <>
         <View style={styles.container}>{this.renderCamera()}</View>
-
-        {/* <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.showModal}
-          onRequestClose={() => {
-            this.setState({showModal: false});
-          }}>
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <View
-              style={{
-                width: '80%',
-                height: 150,
-                backgroundColor: 'white',
-                borderRadius: 10,
-                paddingHorizontal: 10,
-                paddingVertical: 10,
-              }}>
-              <View style={{flex: 1}}>
-                {this.props.deleteModal ? (
-                  this.props.deleteModal()
-                ) : (
-                  <>
-                    <Text style={{fontSize: 22, color: 'black'}}>
-                      No Permission
-                    </Text>
-                    <Text>You need to grand the permission from settings</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        position: 'absolute',
-                        bottom: 0,
-                        // height:100
-                      }}>
-                      <TouchableOpacity
-                        style={{
-                          backgroundColor: 'red',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          flex: 1,
-                          padding: 10,
-                        }}>
-                        <Text style={{color: 'white'}}>Open Settings</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({showModal: false});
-                        }}
-                        style={{
-                          backgroundColor: '#dedede',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          flex: 1,
-                          padding: 10,
-                        }}>
-                        <Text>Cancel</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </>
-                )}
-              </View>
-            </View>
-          </View>
-        </Modal> */}
       </>
     );
   }

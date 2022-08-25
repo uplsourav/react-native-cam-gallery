@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 const Header = props => {
   return (
     <View
@@ -28,15 +28,15 @@ const Header = props => {
           }}>
           <Image
             source={require('../../assets/images/back_icon.png')}
-            style={{height: 25, width: 25}}
+            style={{ height: 25, width: 25 }}
           />
         </TouchableOpacity>
-        {/* <Text style={{fontSize:22, fontWeight:'bold', paddingHorizontal:10}}>{props.headerText}</Text> */}
+        <Text style={{ fontSize: 22, fontWeight: 'bold', paddingHorizontal: 10, color: '#000000' }}>{props.headerText}</Text>
       </View>
       <TouchableOpacity
         onPress={props.onPressDoneTxt}
-        style={{paddingHorizontal: 20, paddingVertical: 20}}>
-        {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>{props.doneTxt}</Text> */}
+        style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000' }}>{props.doneTxt}</Text>
       </TouchableOpacity>
     </View>
   );

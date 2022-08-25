@@ -1,7 +1,6 @@
-
 # react-native-cam-gallery
 
-React Native Cam Gallery. A React Native module that allows you to select a photo/video from the device library or camera.
+React Native Cam Gallery. A React Native module that allows you to select photos & videos from the device library & camera.
 
 <p  align="center">
 
@@ -13,25 +12,14 @@ React Native Cam Gallery. A React Native module that allows you to select a phot
 
 </p>
 
+\***\*`Please install this libraries`\*\***
 
-
-****`Please install this libraries`****
-
-Use this custom React-Native-Camera module. We modified it due to some permission issues
-
-```bash
-yarn add uplsoumen/react-native-camera-modified#master
-
-```
-
-  [react-native-permissions](https://www.npmjs.com/package/react-native-permissions "react-native-permissions") is added to access camera and storage permission in Android & IOS devices
+[react-native-permissions](https://www.npmjs.com/package/react-native-permissions "react-native-permissions") is added to access camera and storage permission in Android & IOS devices
 
 ```bash
 yarn add react-native-permissions
 
 ```
-
-  
 
 [@react-native-community/cameraroll](https://www.npmjs.com/package/@react-native-community/cameraroll "@react-native-community/cameraroll") is used to access media files from device library
 
@@ -40,16 +28,9 @@ yarn add @react-native-community/cameraroll
 
 ```
 
-
-
-
-
-
-  
-
 for Android:
 
-  Need to add this permissions in **`AndroidManifest.xml`**
+Need to add this permissions in **`AndroidManifest.xml`**
 
 ```arduino
 
@@ -63,15 +44,9 @@ for Android:
 
 ```
 
-  
-
 for IOS:
 
-  
-
 Add permissions with usage descriptions to your app `Info.plist:`
-
-  
 
 ```xml
 
@@ -89,15 +64,9 @@ Add permissions with usage descriptions to your app `Info.plist:`
 
 ```
 
-  
-
 ### **Modify build.gradle**
 
-  
-
 Modify the following lines in `android/app/build.gradle`:
-
-  
 
 ```
 
@@ -111,11 +80,7 @@ android {
 
 ```
 
-  
-
 ## Add these to PodFile
-
-  
 
 ```swift
 
@@ -125,12 +90,7 @@ pod 'Permission-PhotoLibrary', :path =>  "../node_modules/react-native-permissio
 
 ```
 
-  
-  
-
-****`Component Usage`****
-
-  
+\***\*`Component Usage`\*\***
 
 ```css
 
@@ -148,22 +108,20 @@ onPermissionBlocked={() => {}}
 
 # Props
 
+| props                 | type                      | returns                                                                                |
+| --------------------- | ------------------------- | -------------------------------------------------------------------------------------- |
+| onSubmit              | handler function callback | returns selected and captured images list                                              |
+| onPermissionRejection | handler function callback | return nothing but called when user rejects camera and storage permission              |
+| onPermissionBlocked   | handler function callback | return nothing but called when camera and storage permission is blocked by Android/IOS |
 
-| props | type |  returns |
-|--|--|--|
-| onSubmit | handler function callback | returns selected and captured images list |
-| onPermissionRejection | handler function callback | return nothing but called when user rejects camera and storage permission |
-| onPermissionBlocked | handler function callback | return nothing but called when camera and storage permission is blocked by Android/IOS |
+# Repository
 
-
-# Repository 
 Checkout our GitHub repository and contribute
 [React-native-cam-gallery](https://github.com/uplsourav/react-native-cam-gallery "React-native-cam-gallery") <br/>
 
-# Contributors 
+# Contributors
+
 [Sourav Das](https://github.com/uplsourav "UplSourav") <br/>
 [Amartya Chakraborty](https://github.com/amartyach98 "Amartya Chakraborty") <br/>
 [Suman Kamilya](https://github.com/sumankamilya "Suman Kamilya") <br/>
 [Soumen Samanta](https://github.com/novamaster-git "Soumen Samanta") <br/>
-
-
