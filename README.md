@@ -80,19 +80,16 @@ Add permissions with usage descriptions to your app `Info.plist:`
 
 ```
 
-### **Modify build.gradle**
+### **Modify settings.gradle**
 
-Modify the following lines in `android/app/build.gradle`:
+Add the following lines in `android/app/build.gradle`:
 
 ```
 
-android {
-
-  defaultConfig {
-   ...
-      missingDimensionStrategy 'react-native-camera', 'general'
-  	}
-   }
+include ':@react-native-community_cameraroll'
+project(':@react-native-community_cameraroll').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/cameraroll/android')
+include ':react-native-permissions'
+project(':react-native-permissions').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-permissions/android')
 
 ```
 
@@ -110,14 +107,15 @@ pod 'Permission-PhotoLibrary', :path =>  "../node_modules/react-native-permissio
 \***\*`Component Usage`\*\***
 
 ```css
+import { RNCamGallery } from 'react-native-cam-gallery';
 
 <RNCamGallery
 
-onSubmit={(data) => {}}
+  onSubmit={(data) => {}}
 
-onPermissionRejection={() => {}}
+  onPermissionRejection={() => {}}
 
-onPermissionBlocked={() => {}}
+  onPermissionBlocked={() => {}}
 
 />
 
