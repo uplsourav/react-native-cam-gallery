@@ -44,6 +44,8 @@ yarn add fbjs
 
 for Android:
 
+[Add Kotlin to your project](./kotlin.md)
+
 Need to add this permissions in **`AndroidManifest.xml`**
 
 ```arduino
@@ -94,21 +96,6 @@ android {
 
 ```
 
-### **Add kotlin to your project**
-
-Modify the following lines in `android/app/build.gradle`:
-
-```
-
-android {
-
-  defaultConfig {
-   ...
-      missingDimensionStrategy 'react-native-camera', 'general'
-  	}
-   }
-
-```
 
 ## Add these to PodFile
 
