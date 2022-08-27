@@ -12,6 +12,16 @@ React Native Cam Gallery. A React Native module that allows you to select photos
 
 </p>
 
+## Installation
+
+```bash
+yarn add react-native-cam-gallery
+```
+
+```bash
+cd ios && pod install && cd ..
+```
+
 \***\*`Please install this libraries`\*\***
 
 [react-native-permissions](https://www.npmjs.com/package/react-native-permissions "react-native-permissions") is added to access camera and storage permission in Android & IOS devices
@@ -41,10 +51,9 @@ yarn add @react-native-community/cameraroll
 yarn add fbjs
 
 ```
+## Permissions
 
-for Android:
-
-[Add Kotlin to your project](./kotlin.md)
+### Android:
 
 Need to add this permissions in **`AndroidManifest.xml`**
 
@@ -60,7 +69,7 @@ Need to add this permissions in **`AndroidManifest.xml`**
 
 ```
 
-for IOS:
+### IOS:
 
 Add permissions with usage descriptions to your app `Info.plist:`
 
@@ -80,6 +89,9 @@ Add permissions with usage descriptions to your app `Info.plist:`
 
 ```
 
+Android:
+[Add Kotlin to your project](./docs/kotlin.md)
+
 ### **Modify settings.gradle**
 
 Add the following lines in `android/app/build.gradle`:
@@ -94,7 +106,7 @@ project(':react-native-permissions').projectDir = new File(rootProject.projectDi
 ```
 
 
-## Add these to PodFile
+### Add these to PodFile
 
 ```swift
 
@@ -104,11 +116,15 @@ pod 'Permission-PhotoLibrary', :path =>  "../node_modules/react-native-permissio
 
 ```
 
+## Components
+
 \***\*`Component Usage`\*\***
 
-```css
+```ts
 import { RNCamGallery } from 'react-native-cam-gallery';
+```
 
+```jsx
 <RNCamGallery
 
   onSubmit={(data) => {}}
@@ -121,20 +137,26 @@ import { RNCamGallery } from 'react-native-cam-gallery';
 
 ```
 
-# Props
+## Props
 
 | props                 | type                      | returns                                                                                |
 | --------------------- | ------------------------- | -------------------------------------------------------------------------------------- |
 | onSubmit              | handler function callback | returns selected and captured images list                                              |
-| onPermissionRejection | handler function callback | return nothing but called when user rejects camera and storage permission              |
-| onPermissionBlocked   | handler function callback | return nothing but called when camera and storage permission is blocked by Android/IOS |
+| onPermissionRejection | handler function callback | called when user rejects camera and storage permission                                 |
+| onPermissionBlocked   | handler function callback | called when camera and storage permission is blocked                                   |
 
-# Repository
+## Repository
 
 Checkout our GitHub repository and contribute
 [React-native-cam-gallery](https://github.com/uplsourav/react-native-cam-gallery "React-native-cam-gallery") <br/>
 
-# Contributors
+## Contributing
+
+- Pull Requests are welcome, if you open a pull request we will do our best to get to it in a timely manner
+- Pull Request Reviews are even more welcome! we need help testing, reviewing, and updating open PRs
+- If you are interested in contributing more actively, please contact us.
+
+## Contributors
 
 [Sourav Das](https://github.com/uplsourav "UplSourav") <br/>
 [Amartya Chakraborty](https://github.com/amartyach98 "Amartya Chakraborty") <br/>
