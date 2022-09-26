@@ -90,7 +90,7 @@ Add permissions with usage descriptions to your app `Info.plist:`
 ```
 
 Android:
-[Add Kotlin to your project](./docs/kotlin.md)
+[Add Kotlin to your project](./kotlin.md)
 
 ### **Modify settings.gradle**
 
