@@ -19,8 +19,8 @@ target 'sampleApplication' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  pod 'ReactNativeCameraKit', :path => '../node_modules/react-native-camera-kit'
   pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
 
   pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
